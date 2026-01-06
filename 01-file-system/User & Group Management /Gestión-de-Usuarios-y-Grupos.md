@@ -17,24 +17,24 @@
 
 ## 1. Ver usuarios del sistema / View system users
 Listar usuarios conectados / List logged in users
-bash
+```bash
 
 who                    # Usuarios conectados actualmente
 w                      # Más detalles (qué están haciendo)
 last                   # Historial de conexiones
 lastlog                # Último login de cada usuario
-
-Ver información de usuario específico / View specific user info
-bash
+```
+## Ver información de usuario específico / View specific user info
+```bash
 
 id                     # Mi información de usuario
 id username            # Información de otro usuario
 whoami                 # ¿Quién soy yo?
 groups username        # Grupos de un usuario
 finger username        # Información detallada (si está instalado)
-
-Ver todos los usuarios del sistema / View all system users
-bash
+```
+## Ver todos los usuarios del sistema / View all system users
+```bash
 
 cat /etc/passwd        # Lista completa de usuarios
 getent passwd          # Similar, usa la base de datos del sistema
@@ -42,9 +42,9 @@ getent passwd          # Similar, usa la base de datos del sistema
 # Formateado mejor:
 cat /etc/passwd | cut -d: -f1  # Solo nombres de usuario
 getent passwd | grep /bin/bash # Usuarios con shell bash
-
+```
 Estructura de /etc/passwd / Structure of /etc/passwd
-text
+```text
 
 usuario:x:1000:1000:Nombre Completo:/home/usuario:/bin/bash
 ↑        ↑ ↑    ↑   ↑               ↑             ↑
@@ -55,10 +55,10 @@ usuario:x:1000:1000:Nombre Completo:/home/usuario:/bin/bash
 │        │ └─ UID (ID del usuario)
 │        └─ Contraseña (x = en /etc/shadow)
 └─ Nombre de usuario
-
-➕ 2. Crear usuarios / Create users
+```
+# 2. Crear usuarios / Create users
 Crear usuario básico / Create basic user
-bash
+```bash
 
 # Debian/Ubuntu (más amigable)
 sudo adduser nuevo_usuario      # Interactivo, crea home, pregunta datos
@@ -66,9 +66,9 @@ sudo adduser nuevo_usuario      # Interactivo, crea home, pregunta datos
 # RedHat/CentOS/Debian alternativo
 sudo useradd nuevo_usuario      # Básico, sin home por defecto
 sudo useradd -m nuevo_usuario   # Con directorio home (-m)
-
-Opciones comunes al crear usuarios / Common options when creating users
-bash
+```
+## Opciones comunes al crear usuarios / Common options when creating users
+```bash
 
 # Crear usuario con configuración específica
 sudo useradd -m -s /bin/bash -c "Nombre Completo" -d /home/usuario usuario
@@ -81,9 +81,9 @@ sudo useradd -m -s /bin/bash -c "Nombre Completo" -d /home/usuario usuario
 # -g, --gid GROUP           Grupo primario
 # -G, --groups GROUPS       Grupos secundarios (separados por coma)
 # -u, --uid UID             UID específico
-
-Crear usuario con configuración completa / Create user with full configuration
-bash
+```
+## Crear usuario con configuración completa / Create user with full configuration
+```bash
 
 # Ejemplo práctico - Desarrollador
 sudo useradd -m \
@@ -113,19 +113,19 @@ sudo passwd -l usuario    # Bloquear cuenta
 sudo passwd -u usuario    # Desbloquear cuenta
 sudo passwd -e usuario    # Expirar contraseña (forzar cambio)
 sudo passwd -S usuario    # Estado de la contraseña
-
-Crear usuario sin shell de login / Create user without login shell
-bash
+```
+## Crear usuario sin shell de login / Create user without login shell
+```bash
 
 # Para servicios/daemons (no puede hacer login)
 sudo useradd -r -s /usr/sbin/nologin servicio_usuario
 sudo useradd -r -s /bin/false mysql_user
 
 # -r, --system            Crea usuario de sistema (UID < 1000)
-
-✏️ 3. Modificar usuarios / Modify users
+```
+# 3. Modificar usuarios / Modify users
 Cambiar propiedades de usuario / Change user properties
-bash
+```bash
 
 # Comando principal
 sudo usermod [opciones] nombre_usuario
@@ -150,9 +150,9 @@ sudo usermod -U usuario    # Desbloquear (Unlock)
 # Expirar cuenta
 sudo usermod -e 2024-12-31 usuario  # Expira en fecha específica
 sudo usermod -e "" usuario          # Quitar expiración
-
-Gestionar grupos de usuario / Manage user groups
-bash
+```
+# Gestionar grupos de usuario / Manage user groups
+```bash
 
 # Agregar a grupos secundarios
 sudo usermod -aG sudo,docker,developers usuario
@@ -166,9 +166,9 @@ sudo usermod -g developers usuario
 # Ver grupos actuales
 groups usuario
 id -Gn usuario
-
-Ejemplos prácticos de modificación / Practical modification examples
-bash
+```
+## Ejemplos prácticos de modificación / Practical modification examples
+```bash
 
 # 1. Dar permisos de sudo a un usuario
 sudo usermod -aG sudo nombre_usuario
@@ -182,10 +182,10 @@ sudo usermod -s /sbin/nologin usuario
 
 # 4. Cambiar todo el nombre de un usuario
 sudo usermod -c "Nuevo Nombre Completo" -d /home/nuevo -m -l nuevo viejo
-
-🗑️ 4. Eliminar usuarios / Delete users
+```
+## 4. Eliminar usuarios / Delete users
 Eliminar usuario / Delete user
-bash
+```bash
 
 # Debian/Ubuntu (más seguro)
 sudo deluser nombre_usuario           # Elimina usuario, pregunta por home
@@ -198,9 +198,9 @@ sudo userdel -r nombre_usuario        # -r, --remove
 
 # Forzar eliminación (si el usuario está logeado)
 sudo userdel -f -r nombre_usuario     # -f, --force
-
-Proceso seguro de eliminación / Safe deletion process
-bash
+```
+## Proceso seguro de eliminación / Safe deletion process
+```bash
 
 # 1. Verificar si el usuario existe
 id nombre_usuario
@@ -218,9 +218,9 @@ sudo userdel -r nombre_usuario
 # 5. Verificar eliminación
 getent passwd nombre_usuario
 ls -la /home/  # Verificar que se eliminó el directorio
-
-Eliminar solo ciertos archivos / Delete only certain files
-bash
+```
+## Eliminar solo ciertos archivos / Delete only certain files
+```bash
 
 # Si no quieres eliminar todo el home, eliminar manualmente:
 sudo rm -rf /home/nombre_usuario
@@ -230,10 +230,10 @@ sudo userdel nombre_usuario  # Sin -r
 sudo userdel nombre_usuario
 # Luego renombrar el home si es necesario
 sudo mv /home/nombre_usuario /home/nombre_usuario_old
-
-👥 5. Gestión de grupos / Group management
+```
+## 5. Gestión de grupos / Group management
 Ver grupos del sistema / View system groups
-bash
+```bash
 
 cat /etc/group         # Todos los grupos
 getent group           # Similar, desde base de datos del sistema
@@ -247,7 +247,7 @@ getent group nombre_grupo
 grep nombre_grupo /etc/group
 
 Estructura de /etc/group / Structure of /etc/group
-text
+```text
 
 nombre_grupo:x:1001:usuario1,usuario2,usuario3
 ↑              ↑ ↑    ↑
@@ -255,9 +255,10 @@ nombre_grupo:x:1001:usuario1,usuario2,usuario3
 │              │ └─ GID (ID del grupo)
 │              └─ Contraseña (x = en /etc/gshadow)
 └─ Nombre del grupo
+```
 
-Crear grupos / Create groups
-bash
+## Crear grupos / Create groups
+```bash
 
 # Grupo normal
 sudo groupadd nombre_grupo
@@ -270,9 +271,9 @@ sudo groupadd -r sistema_grupo    # -r, --system (GID < 1000)
 
 # Verificar creación
 getent group nombre_grupo
-
-Modificar grupos / Modify groups
-bash
+```
+## Modificar grupos / Modify groups
+```bash
 
 # Cambiar nombre de grupo
 sudo groupmod -n nuevo_nombre viejo_nombre
@@ -282,18 +283,18 @@ sudo groupmod -g 3000 nombre_grupo
 
 # Agregar contraseña a grupo (para newgrp)
 sudo gpasswd nombre_grupo
-
-Eliminar grupos / Delete groups
-bash
+```
+## Eliminar grupos / Delete groups
+```bash
 
 # Eliminar grupo (debe estar vacío)
 sudo groupdel nombre_grupo
 
 # Eliminar grupo forzadamente
 sudo groupdel -f nombre_grupo    # -f, --force
-
-Gestionar miembros de grupos / Manage group members
-bash
+```
+## Gestionar miembros de grupos / Manage group members
+```bash
 
 # Agregar usuario a grupo
 sudo gpasswd -a usuario nombre_grupo    # -a, --add
@@ -306,10 +307,10 @@ sudo gpasswd -A usuario1,usuario2 nombre_grupo
 
 # Listar miembros del grupo
 sudo gpasswd -M usuario1,usuario2 nombre_grupo  # -M, --members (reemplaza lista)
-
-🔐 6. Permisos de usuarios / User permissions
+```
+## 6. Permisos de usuarios / User permissions
 Permisos de archivos y directorios / File and directory permissions
-bash
+```bash
 
 # Ver permisos actuales
 ls -la
@@ -326,9 +327,9 @@ sudo chown -R usuario:grupo directorio/
 # Cambiar grupo (chgrp)
 sudo chgrp grupo archivo.txt
 sudo chgrp -R grupo directorio/
-
-Permisos especiales / Special permissions
-bash
+```
+## Permisos especiales / Special permissions
+```bash
 
 # SetUID - Ejecutar como propietario
 sudo chmod u+s /usr/bin/programa      # s en permisos de usuario
@@ -341,9 +342,9 @@ sudo chmod 2775 /directorio_compartido/
 # Sticky bit - Solo dueño puede borrar
 sudo chmod +t /tmp
 sudo chmod 1777 /tmp
-
-Máscara de permisos por defecto (umask) / Default permission mask
-bash
+```
+## Máscara de permisos por defecto (umask) / Default permission mask
+```bash
 
 # Ver umask actual
 umask
@@ -355,9 +356,9 @@ umask 027  # Archivos: 640, Directorios: 750
 
 # Para hacerlo permanente (agregar a ~/.bashrc)
 echo "umask 022" >> ~/.bashrc
-
-ACLs - Permisos avanzados / Advanced permissions
-bash
+```
+## ACLs - Permisos avanzados / Advanced permissions
+```bash
 
 # Ver ACLs actuales
 getfacl archivo.txt
@@ -368,25 +369,26 @@ setfacl -m g:grupo:rx directorio/
 
 # Permisos por defecto para nuevos archivos
 setfacl -d -m u:usuario:rwx directorio/👁️ 1. Ver usuarios del sistema / View system users
-Listar usuarios conectados / List logged in users
-bash
+```
+##Listar usuarios conectados / List logged in users
+```bash
 
 who                    # Usuarios conectados actualmente
 w                      # Más detalles (qué están haciendo)
 last                   # Historial de conexiones
 lastlog                # Último login de cada usuario
-
-Ver información de usuario específico / View specific user info
-bash
+```
+##Ver información de usuario específico / View specific user info
+```bash
 
 id                     # Mi información de usuario
 id username            # Información de otro usuario
 whoami                 # ¿Quién soy yo?
 groups username        # Grupos de un usuario
 finger username        # Información detallada (si está instalado)
-
-Ver todos los usuarios del sistema / View all system users
-bash
+```
+## Ver todos los usuarios del sistema / View all system users
+```bash
 
 cat /etc/passwd        # Lista completa de usuarios
 getent passwd          # Similar, usa la base de datos del sistema
@@ -396,7 +398,7 @@ cat /etc/passwd | cut -d: -f1  # Solo nombres de usuario
 getent passwd | grep /bin/bash # Usuarios con shell bash
 
 Estructura de /etc/passwd / Structure of /etc/passwd
-text
+```text
 
 usuario:x:1000:1000:Nombre Completo:/home/usuario:/bin/bash
 ↑        ↑ ↑    ↑   ↑               ↑             ↑
@@ -407,10 +409,10 @@ usuario:x:1000:1000:Nombre Completo:/home/usuario:/bin/bash
 │        │ └─ UID (ID del usuario)
 │        └─ Contraseña (x = en /etc/shadow)
 └─ Nombre de usuario
-
-➕ 2. Crear usuarios / Create users
+```
+## 2. Crear usuarios / Create users
 Crear usuario básico / Create basic user
-bash
+```bash
 
 # Debian/Ubuntu (más amigable)
 sudo adduser nuevo_usuario      # Interactivo, crea home, pregunta datos
@@ -418,9 +420,9 @@ sudo adduser nuevo_usuario      # Interactivo, crea home, pregunta datos
 # RedHat/CentOS/Debian alternativo
 sudo useradd nuevo_usuario      # Básico, sin home por defecto
 sudo useradd -m nuevo_usuario   # Con directorio home (-m)
-
-Opciones comunes al crear usuarios / Common options when creating users
-bash
+```
+## Opciones comunes al crear usuarios / Common options when creating users
+```bash
 
 # Crear usuario con configuración específica
 sudo useradd -m -s /bin/bash -c "Nombre Completo" -d /home/usuario usuario
@@ -433,9 +435,9 @@ sudo useradd -m -s /bin/bash -c "Nombre Completo" -d /home/usuario usuario
 # -g, --gid GROUP           Grupo primario
 # -G, --groups GROUPS       Grupos secundarios (separados por coma)
 # -u, --uid UID             UID específico
-
-Crear usuario con configuración completa / Create user with full configuration
-bash
+```
+## Crear usuario con configuración completa / Create user with full configuration
+```bash
 
 # Ejemplo práctico - Desarrollador
 sudo useradd -m \
@@ -450,9 +452,9 @@ sudo useradd -m \
 # Verificar creación
 sudo tail -1 /etc/passwd
 ls -la /home/juan/
-
-Establecer contraseña / Set password
-bash
+```
+##Establecer contraseña / Set password
+```bash
 
 # Para tu propio usuario
 passwd
@@ -465,19 +467,19 @@ sudo passwd -l usuario    # Bloquear cuenta
 sudo passwd -u usuario    # Desbloquear cuenta
 sudo passwd -e usuario    # Expirar contraseña (forzar cambio)
 sudo passwd -S usuario    # Estado de la contraseña
-
-Crear usuario sin shell de login / Create user without login shell
-bash
+```
+## Crear usuario sin shell de login / Create user without login shell
+```bash
 
 # Para servicios/daemons (no puede hacer login)
 sudo useradd -r -s /usr/sbin/nologin servicio_usuario
 sudo useradd -r -s /bin/false mysql_user
 
 # -r, --system            Crea usuario de sistema (UID < 1000)
-
-✏️ 3. Modificar usuarios / Modify users
+```
+## 3. Modificar usuarios / Modify users
 Cambiar propiedades de usuario / Change user properties
-bash
+```bash
 
 # Comando principal
 sudo usermod [opciones] nombre_usuario
@@ -502,9 +504,9 @@ sudo usermod -U usuario    # Desbloquear (Unlock)
 # Expirar cuenta
 sudo usermod -e 2024-12-31 usuario  # Expira en fecha específica
 sudo usermod -e "" usuario          # Quitar expiración
-
-Gestionar grupos de usuario / Manage user groups
-bash
+```
+## Gestionar grupos de usuario / Manage user groups
+```bash
 
 # Agregar a grupos secundarios
 sudo usermod -aG sudo,docker,developers usuario
@@ -518,9 +520,9 @@ sudo usermod -g developers usuario
 # Ver grupos actuales
 groups usuario
 id -Gn usuario
-
-Ejemplos prácticos de modificación / Practical modification examples
-bash
+```
+## Ejemplos prácticos de modificación / Practical modification examples
+```bash
 
 # 1. Dar permisos de sudo a un usuario
 sudo usermod -aG sudo nombre_usuario
@@ -534,10 +536,10 @@ sudo usermod -s /sbin/nologin usuario
 
 # 4. Cambiar todo el nombre de un usuario
 sudo usermod -c "Nuevo Nombre Completo" -d /home/nuevo -m -l nuevo viejo
-
-🗑️ 4. Eliminar usuarios / Delete users
+```
+## 4. Eliminar usuarios / Delete users
 Eliminar usuario / Delete user
-bash
+```bash
 
 # Debian/Ubuntu (más seguro)
 sudo deluser nombre_usuario           # Elimina usuario, pregunta por home
@@ -550,9 +552,9 @@ sudo userdel -r nombre_usuario        # -r, --remove
 
 # Forzar eliminación (si el usuario está logeado)
 sudo userdel -f -r nombre_usuario     # -f, --force
-
-Proceso seguro de eliminación / Safe deletion process
-bash
+```
+## Proceso seguro de eliminación / Safe deletion process
+```bash
 
 # 1. Verificar si el usuario existe
 id nombre_usuario
@@ -570,9 +572,9 @@ sudo userdel -r nombre_usuario
 # 5. Verificar eliminación
 getent passwd nombre_usuario
 ls -la /home/  # Verificar que se eliminó el directorio
-
-Eliminar solo ciertos archivos / Delete only certain files
-bash
+```
+## Eliminar solo ciertos archivos / Delete only certain files
+```bash
 
 # Si no quieres eliminar todo el home, eliminar manualmente:
 sudo rm -rf /home/nombre_usuario
@@ -607,9 +609,9 @@ nombre_grupo:x:1001:usuario1,usuario2,usuario3
 │              │ └─ GID (ID del grupo)
 │              └─ Contraseña (x = en /etc/gshadow)
 └─ Nombre del grupo
-
-Crear grupos / Create groups
-bash
+```
+## Crear grupos / Create groups
+```bash
 
 # Grupo normal
 sudo groupadd nombre_grupo
@@ -622,9 +624,9 @@ sudo groupadd -r sistema_grupo    # -r, --system (GID < 1000)
 
 # Verificar creación
 getent group nombre_grupo
-
-Modificar grupos / Modify groups
-bash
+```
+## Modificar grupos / Modify groups
+```bash
 
 # Cambiar nombre de grupo
 sudo groupmod -n nuevo_nombre viejo_nombre
@@ -634,9 +636,9 @@ sudo groupmod -g 3000 nombre_grupo
 
 # Agregar contraseña a grupo (para newgrp)
 sudo gpasswd nombre_grupo
-
-Eliminar grupos / Delete groups
-bash
+```
+## Eliminar grupos / Delete groups
+```bash
 
 # Eliminar grupo (debe estar vacío)
 sudo groupdel nombre_grupo
@@ -658,10 +660,10 @@ sudo gpasswd -A usuario1,usuario2 nombre_grupo
 
 # Listar miembros del grupo
 sudo gpasswd -M usuario1,usuario2 nombre_grupo  # -M, --members (reemplaza lista)
-
-🔐 6. Permisos de usuarios / User permissions
+```
+## 6. Permisos de usuarios / User permissions
 Permisos de archivos y directorios / File and directory permissions
-bash
+```bash
 
 # Ver permisos actuales
 ls -la
@@ -678,9 +680,9 @@ sudo chown -R usuario:grupo directorio/
 # Cambiar grupo (chgrp)
 sudo chgrp grupo archivo.txt
 sudo chgrp -R grupo directorio/
-
-Permisos especiales / Special permissions
-bash
+```
+## Permisos especiales / Special permissions
+```bash
 
 # SetUID - Ejecutar como propietario
 sudo chmod u+s /usr/bin/programa      # s en permisos de usuario
@@ -693,9 +695,9 @@ sudo chmod 2775 /directorio_compartido/
 # Sticky bit - Solo dueño puede borrar
 sudo chmod +t /tmp
 sudo chmod 1777 /tmp
-
-Máscara de permisos por defecto (umask) / Default permission mask
-bash
+```
+## Máscara de permisos por defecto (umask) / Default permission mask
+```bash
 
 # Ver umask actual
 umask
@@ -707,9 +709,9 @@ umask 027  # Archivos: 640, Directorios: 750
 
 # Para hacerlo permanente (agregar a ~/.bashrc)
 echo "umask 022" >> ~/.bashrc
-
-ACLs - Permisos avanzados / Advanced permissions
-bash
+```
+## ACLs - Permisos avanzados / Advanced permissions
+```bash
 
 # Ver ACLs actuales
 getfacl archivo.txt
@@ -726,10 +728,10 @@ setfacl -x u:usuario archivo.txt
 
 # Eliminar todas las ACLs
 setfacl -b archivo.txt
-
-🎯 7. Escenarios comunes / Common scenarios
+```
+## 7. Escenarios comunes / Common scenarios
 Escenario 1: Nuevo desarrollador en el equipo
-bash
+```bash
 
 # 1. Crear usuario
 sudo useradd -m -s /bin/bash -c "Carlos López - Dev" -d /home/carlos -g developers carlos
@@ -750,9 +752,9 @@ sudo mkdir /home/carlos/.ssh
 sudo chmod 700 /home/carlos/.ssh
 # Copiar clave pública...
 sudo chown -R carlos:carlos /home/carlos/.ssh
-
-Escenario 2: Usuario de solo lectura para auditoría
-bash
+```
+## Escenario 2: Usuario de solo lectura para auditoría
+```bash
 
 # 1. Crear usuario sin shell de login
 sudo useradd -r -s /sbin/nologin -c "Usuario Auditoría" auditor
@@ -783,9 +785,9 @@ sudo usermod -aG proyecto_alpha usuario3
 
 # 4. Configurar ACLs para permisos específicos
 sudo setfacl -d -m g:proyecto_alpha:rwx /shared/proyecto_alpha
-
-Escenario 4: Limitar acceso de usuario
-bash
+```
+## Escenario 4: Limitar acceso de usuario
+```bash
 
 # 1. Cambiar shell a restrictiva
 sudo usermod -s /bin/rbash usuario_restrictivo
@@ -800,9 +802,9 @@ sudo cp /bin/cat /home/usuario_restrictivo/bin/
 
 # 4. Configurar PATH restringido
 echo 'PATH=$HOME/bin' >> /home/usuario_restrictivo/.bashrc
-
-Escenario 5: Eliminar usuario que se fue de la empresa
-bash
+```
+## Escenario 5: Eliminar usuario que se fue de la empresa
+```bash
 
 # 1. Bloquear cuenta inmediatamente
 sudo usermod -L usuario_saliente      # Bloquear login
@@ -819,9 +821,9 @@ sudo chown -R nuevo_responsable:nuevo_responsable /home/usuario_saliente/proyect
 
 # 5. Eliminar usuario después de 30 días (política de retención)
 # sudo userdel -r usuario_saliente
-
-Escenario 6: Crear usuario de servicio (para aplicaciones)
-bash
+```
+## Escenario 6: Crear usuario de servicio (para aplicaciones)
+```bash
 
 # 1. Crear usuario de sistema sin login
 sudo useradd -r -s /usr/sbin/nologin -d /var/lib/miapp miapp_user
@@ -881,10 +883,10 @@ lastlog -b 90  # No han logeado en 90 días
 
 # 3. Backup de configuraciones
 sudo tar -czf /backup/etc_passwd_group_$(date +%Y%m%d).tar.gz /etc/passwd /etc/group /etc/shadow /etc/gshadow
-
-🔧 Herramientas útiles / Useful tools
+```
+## Herramientas útiles / Useful tools
 Comandos de verificación / Verification commands
-bash
+```bash
 
 # Verificar consistencia de usuarios
 pwck    # Verifica /etc/passwd
@@ -916,10 +918,10 @@ setfacl -x u:usuario archivo.txt
 
 # Eliminar todas las ACLs
 setfacl -b archivo.txt
-
-🎯 7. Escenarios comunes / Common scenarios
+```
+## 7. Escenarios comunes / Common scenarios
 Escenario 1: Nuevo desarrollador en el equipo
-bash
+```bash
 
 # 1. Crear usuario
 sudo useradd -m -s /bin/bash -c "Carlos López - Dev" -d /home/carlos -g developers carlos
@@ -940,9 +942,9 @@ sudo mkdir /home/carlos/.ssh
 sudo chmod 700 /home/carlos/.ssh
 # Copiar clave pública...
 sudo chown -R carlos:carlos /home/carlos/.ssh
-
-Escenario 2: Usuario de solo lectura para auditoría
-bash
+```
+## Escenario 2: Usuario de solo lectura para auditoría
+```bash
 
 # 1. Crear usuario sin shell de login
 sudo useradd -r -s /sbin/nologin -c "Usuario Auditoría" auditor
@@ -954,9 +956,9 @@ sudo chmod 750 /var/log/auditoria
 
 # 3. Dar acceso de solo lectura
 sudo setfacl -m u:auditor:rx /var/log/auditoria
-
-Escenario 3: Compartir carpeta entre varios usuarios
-bash
+```
+## Escenario 3: Compartir carpeta entre varios usuarios
+```bash
 
 # 1. Crear grupo para el proyecto
 sudo groupadd proyecto_alpha
@@ -973,9 +975,9 @@ sudo usermod -aG proyecto_alpha usuario3
 
 # 4. Configurar ACLs para permisos específicos
 sudo setfacl -d -m g:proyecto_alpha:rwx /shared/proyecto_alpha
-
-Escenario 4: Limitar acceso de usuario
-bash
+```
+## Escenario 4: Limitar acceso de usuario
+```bash
 
 # 1. Cambiar shell a restrictiva
 sudo usermod -s /bin/rbash usuario_restrictivo
@@ -990,9 +992,9 @@ sudo cp /bin/cat /home/usuario_restrictivo/bin/
 
 # 4. Configurar PATH restringido
 echo 'PATH=$HOME/bin' >> /home/usuario_restrictivo/.bashrc
-
-Escenario 5: Eliminar usuario que se fue de la empresa
-bash
+```
+## Escenario 5: Eliminar usuario que se fue de la empresa
+```bash
 
 # 1. Bloquear cuenta inmediatamente
 sudo usermod -L usuario_saliente      # Bloquear login
@@ -1009,9 +1011,9 @@ sudo chown -R nuevo_responsable:nuevo_responsable /home/usuario_saliente/proyect
 
 # 5. Eliminar usuario después de 30 días (política de retención)
 # sudo userdel -r usuario_saliente
-
-Escenario 6: Crear usuario de servicio (para aplicaciones)
-bash
+```
+## Escenario 6: Crear usuario de servicio (para aplicaciones)
+```bash
 
 # 1. Crear usuario de sistema sin login
 sudo useradd -r -s /usr/sbin/nologin -d /var/lib/miapp miapp_user
@@ -1024,10 +1026,10 @@ sudo chmod 755 /etc/miapp
 # 3. Configurar permisos de logs
 sudo chmod 750 /var/log/miapp
 sudo setfacl -m g:adm:rx /var/log/miapp  # Grupo adm puede leer logs
-
-⚠️ Buenas prácticas / Best practices
+```
+## Buenas prácticas / Best practices
 Seguridad / Security
-bash
+```bash
 
 # 1. UIDs/GIDs consistentes
 # Usuarios normales: UID >= 1000
@@ -1044,9 +1046,9 @@ faillock --user usuario  # Intentos fallidos de login
 # 4. Deshabilitar cuentas innecesarias
 sudo usermod -s /sbin/nologin usuario_viejo
 sudo passwd -l usuario_viejo
-
-Organización / Organization
-bash
+```
+##Organización / Organization
+```bash
 
 # 1. Convención de nombres
 # usuarios: nombre.apellido o userXX
@@ -1058,9 +1060,9 @@ bash
 
 # 3. Scripts para consistencia
 # Crear scripts para crear usuarios con configuración estándar
-
-Mantenimiento / Maintenance
-bash
+```
+## Mantenimiento / Maintenance
+```bash
 
 # 1. Revisión periódica
 # Listar usuarios sin login reciente:
@@ -1071,10 +1073,10 @@ lastlog -b 90  # No han logeado en 90 días
 
 # 3. Backup de configuraciones
 sudo tar -czf /backup/etc_passwd_group_$(date +%Y%m%d).tar.gz /etc/passwd /etc/group /etc/shadow /etc/gshadow
-
-🔧 Herramientas útiles / Useful tools
+```
+## Herramientas útiles / Useful tools
 Comandos de verificación / Verification commands
-bash
+```bash
 
 # Verificar consistencia de usuarios
 pwck    # Verifica /etc/passwd
@@ -1087,9 +1089,9 @@ chage -M 60 -m 7 -W 7 usuario  # Configurar política
 # Buscar archivos de usuarios
 find / -user usuario 2>/dev/null
 find / -group grupo 2>/dev/null
-
-Herramientas gráficas (opcionales) / Graphical tools (optional)
-bash
+```
+## Herramientas gráficas (opcionales) / Graphical tools (optional)
+```bash
 
 # Ubuntu/Debian
 sudo apt install gnome-system-tools  # users-admin
@@ -1100,3 +1102,4 @@ sudo yum install system-config-users
 # Terminal interactivo
 sudo vigr  # Editar /etc/group
 sudo vipw  # Editar /etc/passwd
+```
