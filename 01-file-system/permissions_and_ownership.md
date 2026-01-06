@@ -186,7 +186,7 @@ sudo chown -R mysql:mysql /var/lib/mysql/
 # DON'T use sudo for / NO uses sudo para:
 # Your own home directory files / Archivos de tu propio directorio home
 chmod 600 ~/.bashrc  # ✅ No sudo needed / ✅ No se necesita sudo
-
+```
 ## Permission numeric values / Valores numéricos de permisos
 ```bash
 
