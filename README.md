@@ -16,7 +16,7 @@ Incluye laboratorios y ejercicios prácticos basados en situaciones reales.
 - Permissions and ownership
 - Process monitoring
 - System information and logs
-
+- troubleshooting 
 ---
 
 ## Objective / Objetivo
